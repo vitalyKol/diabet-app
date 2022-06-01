@@ -2,15 +2,21 @@
 error_reporting( E_ALL );
 //header("Location: /calendarshow.php");
 
+spl_autoload_register(function($name){
+    $path = explode('\\', $name);
+    $path = implode('/', $path);
+    $path .= '.php';
+    require_once $path;
+});
+
 $phpself = $_SERVER["PHP_SELF"];
 $phpself = substr($phpself, 0, -9);
 
 $dirlength = strlen($phpself);
 $uri = $_SERVER["REQUEST_URI"];
 $uri = substr($uri, $dirlength);
-echo "<pre>";
-print_r($uri);
-echo "</pre>";
+
+
 
 $pages = [
     "" => "calendarshow.php",
