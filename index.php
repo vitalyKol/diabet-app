@@ -9,28 +9,12 @@ spl_autoload_register(function($name){
     require_once $path;
 });
 
-$phpself = $_SERVER["PHP_SELF"];
-$phpself = substr($phpself, 0, -9);
+$router = new system\Router();
+$route = $router->getRoute();
 
-$dirlength = strlen($phpself);
-$uri = $_SERVER["REQUEST_URI"];
-$uri = substr($uri, $dirlength);
+$conname = $route['controller'];
+$conname = "app\\controller\\" . $conname;
+$actname = $route['action'];
 
-
-
-$pages = [
-    "" => "calendarshow.php",
-    "calendar" => "calendarshow.php",
-    "day" => "dayshow.php"
-         ];
-
-//if(isset($pages[$uri])){
-//    require $pages[$uri];
-//}else{
-//    require '404.php';
-//}
-if(isset($pages[$uri])){
-    header("Location: /$pages[$uri]");
-}else{
-    header("Location: /404.php");
-}
+$controller = new $conname();
+$controller->{$actname}();
