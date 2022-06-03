@@ -12,9 +12,18 @@ spl_autoload_register(function($name){
 $router = new system\Router();
 $route = $router->getRoute();
 
+$view = new \system\View();
+$view->controller = $route['controller'];
+$view->action = $route['action'];
+
 $conname = $route['controller'];
 $conname = "app\\controller\\" . $conname;
 $actname = $route['action'];
 
 $controller = new $conname();
+$controller->view = $view;
+$controller->params = $route['params'];
 $controller->{$actname}();
+
+
+$view->renderLayout();

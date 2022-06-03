@@ -2,7 +2,8 @@
 
 namespace system;
 
-class Controller
+abstract class Controller
 {
-
+    public $view;
+    public $params = [];
 }

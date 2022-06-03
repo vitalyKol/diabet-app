@@ -4,13 +4,13 @@ namespace system;
 
 class Router
 {
-    public $routes = [];
+    private $routes = [];
 
     public function __construct(){
         include "app/config/routes.php";
     }
 
-    public function addRoute($url, $controller, $action){
+    private function addRoute($url, $controller, $action){
         $req = [
             'controller' => $controller,
             'action' => $action
@@ -28,16 +28,27 @@ class Router
         $dirlength = strlen($phpself);
         $uri = $_SERVER["REQUEST_URI"];
         $uri = substr($uri, $dirlength);
+        $uri = explode('?', $uri);
+        $uri = $uri[0];
 
-        $route = $this->routes[$uri];
-
-        if(!isset($route)){
+        $flag = false;
+        foreach ($this->routes as $rurl => $route){
+            $preg = '|^' . $rurl . '$|';
+            if(preg_match($preg, $uri, $matches)){
+                $flag = true;
+                break;
+            }
+        }
+        if(!$flag){
             $route = [
                 'controller' => 'Index',
                 'action' => 'error404'
             ];
         }
 
+        $matches = array_splice($matches, 1);
+
+        $route['params'] = $matches;
         return $route;
     }
 }
