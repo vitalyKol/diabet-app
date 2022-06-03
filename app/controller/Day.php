@@ -5,14 +5,14 @@ namespace app\controller;
 require_once "Host.php";
 
 
-class DayTable
+class Day
 {
     use Host;
 
     private $data = [];
     private $day;
 
-    public function __construct($user, $y, $m, $d)
+    public function __construct($user = null, $y = null, $m = null, $d = null)
     {
         $date = $y . '-' . $m . '-' . $d;
         $this->day = $date;
@@ -66,5 +66,32 @@ class DayTable
     public function addMealTime()
     {
 
+    }
+
+    public function dayShow(){
+
+        if(empty($_GET['year'])){
+            $year = date('Y', time());
+        }else{
+            $year = $_GET['year'];
+        }
+        if(empty($_GET['month'])){
+            $month = date('m', time());
+        }else{
+            $month = $_GET['month'];
+        }
+        if(empty($_GET['day'])){
+            $day = date('d', time());
+        }else{
+            $day = $_GET['day'];
+            if($day < 10){
+                $day = '0' . $day;
+            }
+        }
+        $thisDay = $year.'-'.$month.'-'.$day;;
+
+        $dayObj = new Day('Ivan', $year,$month,$day);
+        $this->view->dayObj = $dayObj;
+        $this->view->thisDay = $thisDay;
     }
 }
