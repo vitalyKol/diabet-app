@@ -2,12 +2,12 @@
 
 namespace app\controller;
 
-require_once "Host.php";
+use system\Adapter;
+
 
 
 class Day
 {
-    use Host;
 
     private $data = [];
     private $day;
@@ -17,11 +17,10 @@ class Day
         $date = $y . '-' . $m . '-' . $d;
         $this->day = $date;
 
-
-//        self::connectionDB();
-//        $sth = self::$dbh->prepare("SELECT * FROM `sugar` WHERE `day` = ? ORDER BY timeEnter");
-//        $sth->execute(array($date));
-//        $this->data = $sth->fetchAll(PDO::FETCH_ASSOC);
+        $pdo = Adapter::get();
+        $sth = $pdo->prepare("SELECT * FROM `sugar` WHERE `day` = ? ORDER BY timeEnter");
+        $sth->execute(array($date));
+        $this->data = $sth->fetchAll(\PDO::FETCH_ASSOC);
 
     }
 
