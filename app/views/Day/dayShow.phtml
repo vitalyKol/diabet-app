@@ -14,7 +14,7 @@
             </p>
             <div class="collapse mb-2" id="formSugar">
                 <div class="card card-body">
-                    <form name="Sugar" action="sugarHandler.php/insert" method="post">
+                    <form name="Sugar" action="/day/addSugarRecord" method="post">
                         <input type="hidden" name="day" value="<?= $dayObj->thisDay; ?>">
                         <div class="container">
                             <div class="row">
@@ -45,7 +45,7 @@
             </div>
             <div class="collapse mb-2" id="formMealTime">
                 <div class="card card-body">
-                    <form name="MealTime" action="sugarHandler.php/insert" method="post">
+                    <form name="MealTime" action="/day/addSugarRecord" method="post">
                         <input type="hidden" name="day" value="<?= $dayObj->thisDay; ?>">
                         <div class="container">
                             <div class="row">
@@ -117,8 +117,8 @@
                     <td><?= $day->sugar_blood; ?></td>
                     <td><?= $day->comments; ?></td>
                     <td class='text-center'>
-                        <a href='recordShow.php?id=$day->id_sugar' class='btn btn-primary'><i class="fa fa-pencil"></i></a>
-                        <a href='sugarHandler.php/delete?id=$day->id_sugar' class='btn btn-primary'><i class="fa fa-trash"></i></a>
+                        <a href='edit/<?= $day->id_sugar ?>' class='btn btn-primary'><i class="fa fa-pencil"></i></a>
+                        <a href='delete?id=<?= $day->id_sugar ?>' class='btn btn-primary'><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
                 <?php }} ?>

@@ -1,6 +1,5 @@
 <?php
 error_reporting( E_ALL );
-//header("Location: /calendarshow.php");
 
 spl_autoload_register(function($name){
     $path = explode('\\', $name);
