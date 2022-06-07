@@ -31,8 +31,7 @@ class Day extends Model
         if(!$rows){
             return null;
         }
-        return $rows;
-        //////////////////// pause
+
         $objs =[];
 
         foreach ($rows as $row){

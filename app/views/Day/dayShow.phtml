@@ -1,8 +1,9 @@
 
+
 <div class="container">
     <div class="row">
         <div class="col text-center">
-            <h1><?php echo $thisDay; ?></h1>
+            <h1><?php echo $dayObj->thisDay; ?></h1>
         </div>
     </div>
     <div class="row">
@@ -14,7 +15,7 @@
             <div class="collapse mb-2" id="formSugar">
                 <div class="card card-body">
                     <form name="Sugar" action="sugarHandler.php/insert" method="post">
-                        <input type="hidden" name="day" value="<?= $thisDay ?>">
+                        <input type="hidden" name="day" value="<?= $dayObj->thisDay; ?>">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-6">
@@ -45,7 +46,7 @@
             <div class="collapse mb-2" id="formMealTime">
                 <div class="card card-body">
                     <form name="MealTime" action="sugarHandler.php/insert" method="post">
-                        <input type="hidden" name="day" value="<?= $thisDay ?>">
+                        <input type="hidden" name="day" value="<?= $dayObj->thisDay; ?>">
                         <div class="container">
                             <div class="row">
                                 <div class="col-md-6">
@@ -104,7 +105,23 @@
                     <th>Comments</th>
                     <th>Action</th>
                 </tr>
-                <?php $dayObj->showTrs(); ?>
+                <?php
+                if (empty($dayObj->days)){ ?>
+                <tr><td colspan='5'>This day has no records yet</td></tr>
+                <?php } else{
+                foreach ($dayObj->days as $day) {
+                $time = substr($day->timeEnter, 0, 5);?>
+                <tr><td><?= $time; ?></td>
+                    <td><?= $day->insulin; ?></td>
+                    <td><?= $day->XE; ?></td>
+                    <td><?= $day->sugar_blood; ?></td>
+                    <td><?= $day->comments; ?></td>
+                    <td class='text-center'>
+                        <a href='recordShow.php?id=$day->id_sugar' class='btn btn-primary'><i class="fa fa-pencil"></i></a>
+                        <a href='sugarHandler.php/delete?id=$day->id_sugar' class='btn btn-primary'><i class="fa fa-trash"></i></a>
+                    </td>
+                </tr>
+                <?php }} ?>
             </table>
         </div>
     </div>

@@ -2,73 +2,26 @@
 
 namespace app\controller;
 
-use system\Adapter;
+use system\Controller;
+use \app\model\Day as modalDay;
 
-
-
-class Day
+class Day extends Controller
 {
 
-    private $data = [];
-    private $day;
+    public $days = [];
+    public $thisDay;
 
-    public function __construct($user = null, $y = null, $m = null, $d = null)
+    public function __construct($user = null)
     {
-        $date = $y . '-' . $m . '-' . $d;
-        $this->day = $date;
-
-        $pdo = Adapter::get();
-        $sth = $pdo->prepare("SELECT * FROM `sugar` WHERE `day` = ? ORDER BY timeEnter");
-        $sth->execute(array($date));
-        $this->data = $sth->fetchAll(\PDO::FETCH_ASSOC);
+        $dayData = new modalDay;
+        $dayArr = $this->getDay();
+        extract($dayArr);
+        $this->thisDay = $year.'-'.$month.'-'.$day;;
+        $this->days = $dayData->getDayData($this->thisDay);
 
     }
 
-    public function createTrs()
-    {
-        $result = "";
-        if (empty($this->data)) {
-            $result .= "<tr><td colspan='5'>This day has no records yet</td></tr>";
-        } else {
-            foreach ($this->data as $row) {
-                $time = substr($row['timeEnter'], 0, 5);
-                $result .= "<tr><td>$time</td>
-                <td>{$row['insulin']}</td>
-                <td>{$row['XE']}</td>
-                <td>{$row['sugar_blood']}</td>
-                <td>{$row['comments']}</td>
-                <td class='text-center'><a href='recordShow.php?id=" . $row['id_sugar'] . "' class='btn btn-primary'><i class=\"fa fa-pencil\"></i></a>
-                <a href='sugarHandler.php/delete?id=" . $row['id_sugar'] . "' class='btn btn-primary'><i class=\"fa fa-trash\"></i></a></td>
-                </tr>";
-            }
-        }
-        return $result;
-    }
-
-    public function showTrs()
-    {
-        echo $this->createTrs();
-    }
-
-    public function showFormAddSugar()
-    {
-
-    }
-
-    public function addSugar()
-    {
-//        $query = sprintf("INSERT INTO sugar(day, timeEnter, sugar) VALUES()", $date);
-//
-//        $result = mysqli_query($this->link(), $query) or die(mysqli_error($this->link()));
-    }
-
-    public function addMealTime()
-    {
-
-    }
-
-    public function dayShow(){
-
+    public function getDay(){
         if(empty($_GET['year'])){
             $year = date('Y', time());
         }else{
@@ -87,10 +40,11 @@ class Day
                 $day = '0' . $day;
             }
         }
-        $thisDay = $year.'-'.$month.'-'.$day;;
+        return ['year' => $year, 'month' => $month, 'day' => $day];
+    }
 
-        $dayObj = new Day('Ivan', $year,$month,$day);
+    public function dayShow(){
+        $dayObj = new Day('user');
         $this->view->dayObj = $dayObj;
-        $this->view->thisDay = $thisDay;
     }
 }
