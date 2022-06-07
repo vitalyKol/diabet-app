@@ -9,7 +9,6 @@ class Calendar extends Controller
     private $nameDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
     private $nameMonth = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December',];
     private $amountDaysInMonth;
-    private $numberDay;
     private $firstDayWeek;
     private $currentMonth;
     private $currentYear;
@@ -64,12 +63,17 @@ class Calendar extends Controller
                 if ($td < $this->firstDayWeek) {
                     $this->htmlTable .= "<td></td>";
                 } else {
+                    if($i < 10){
+                        $d = "0" . $i;
+                    }else{
+                        $d = $i;
+                    }
                     if ($i == $this->currentDay) {
-                        $this->htmlTable .= "<td class='p-0'><a href=\"..\day?day=$i&month=$m&year=$y\" class='td-links td-active'>$i</a></td>";
+                        $this->htmlTable .= "<td class='p-0'><a href=\"..\day\\$y-$m-$d\" class='td-links td-active'>$i</a></td>";
                         $i++;
                         continue;
                     }
-                    $this->htmlTable .= "<td class='p-0'><a href=\"..\day?day=$i&month=$m&year=$y\" class='td-links'>$i</a></td>";
+                    $this->htmlTable .= "<td class='p-0'><a href=\"..\day\\$y-$m-$d\" class='td-links'>$i</a></td>";
                     $i++;
                 }
             }

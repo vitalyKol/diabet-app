@@ -11,40 +11,29 @@ class Day extends Controller
     public $days = [];
     public $thisDay;
 
-    public function __construct($user = null)
+    public function __construct($day = null)
     {
+
+        $this->thisDay = $day;
         $dayData = new modalDay;
-        $dayArr = $this->getDay();
-        extract($dayArr);
-        $this->thisDay = $year.'-'.$month.'-'.$day;;
-        $this->days = $dayData->getDayData($this->thisDay);
+        if(isset($this->thisDay)){
+            $this->days = $dayData->getDayData($this->thisDay);
+        }
 
     }
 
     public function getDay(){
-        if(empty($_GET['year'])){
-            $year = date('Y', time());
-        }else{
-            $year = $_GET['year'];
-        }
-        if(empty($_GET['month'])){
-            $month = date('m', time());
-        }else{
-            $month = $_GET['month'];
-        }
-        if(empty($_GET['day'])){
-            $day = date('d', time());
-        }else{
-            $day = $_GET['day'];
-            if($day < 10){
-                $day = '0' . $day;
-            }
-        }
-        return ['year' => $year, 'month' => $month, 'day' => $day];
+        return date('Y-m-d', time());
     }
 
     public function dayShow(){
-        $dayObj = new Day('user');
+        if(isset($this->params[0])){
+            $day = $this->params[0];
+        }else{
+            $day = $this->getDay();
+        }
+
+        $dayObj = new Day($day);
         $this->view->dayObj = $dayObj;
     }
 }

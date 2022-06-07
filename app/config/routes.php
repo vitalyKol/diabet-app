@@ -5,3 +5,4 @@ $this->addRoute('', 'Index', 'index');
 $this->addRoute('calendar', 'Calendar', 'calendarShow');
 $this->addRoute('calendar/([0-9]{1,2})', 'Calendar', 'calendarShow');
 $this->addRoute('day', 'Day', 'dayShow');
+$this->addRoute('day/([0-9]{4}-[0-9]{2}-[0-9]{2})', 'Day', 'dayShow');
