@@ -17,7 +17,7 @@ class Day extends Controller
         $this->thisDay = $day;
         $dayData = new modalDay;
         if(isset($this->thisDay)){
-            $this->days = $dayData->getDayData($this->thisDay);
+            $this->days = $dayData->getDayRecords($this->thisDay);
         }
 
     }

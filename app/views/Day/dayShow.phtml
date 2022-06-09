@@ -21,13 +21,13 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="InputTime" class="form-label">Time</label>
-                                        <input type="time" name="sugarTime" class="form-control" id="InputTime" required>
+                                        <input type="time" name="timeEnter" class="form-control" id="InputTime" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="InputNumber" class="form-label">Sugar in blood</label>
-                                        <input type="number" placeholder="00.00" step="0.1" min="0" max="200" name="sugar" class="form-control" id="InputNumber" required>
+                                        <input type="number" placeholder="00.00" step="0.1" min="0" max="200" name="sugar_blood" class="form-control" id="InputNumber" required>
                                     </div>
                                 </div>
                             </div>
@@ -52,31 +52,31 @@
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="InputTime2" class="form-label">Time</label>
-                                        <input type="time" name="sugarTime" class="form-control" id="InputTime2" required>
+                                        <input type="time" name="timeEnter" class="form-control" id="InputTime2" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="InputInsulin" class="form-label">Insulin</label>
-                                        <input type="number" placeholder="00.00" min="0" max="200" name="sugarInsulin" class="form-control" id="InputInsulin" required>
+                                        <input type="number" placeholder="00.00" min="0" max="200" name="insulin" class="form-control" id="InputInsulin" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="InputBU" class="form-label">Bread units</label>
-                                        <input type="number" placeholder="00.00" min="0" max="200" name="sugarBU" class="form-control" id="InputBU" required>
+                                        <input type="number" placeholder="00.00" min="0" max="200" name="bread_units" class="form-control" id="InputBU" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="mb-3">
                                         <label for="InputNumber2" class="form-label">Sugar in blood</label>
-                                        <input type="number" placeholder="00.00" step="0.1" min="0" max="200" name="sugar" class="form-control" id="InputNumber2" >
+                                        <input type="number" placeholder="00.00" step="0.1" min="0" max="200" name="sugar_blood" class="form-control" id="InputNumber2" >
                                     </div>
                                 </div>
                                 <div class="col-md-12">
                                     <div class="mb-3">
                                         <label for="InputComment" class="form-label">Comment</label>
-                                        <textarea class="form-control" placeholder="Enter your comment..." name="sugarComment" id="InputComment" rows="3"></textarea>
+                                        <textarea class="form-control" placeholder="Enter your comment..." name="comments" id="InputComment" rows="3"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -113,12 +113,12 @@
                 $time = substr($day->timeEnter, 0, 5);?>
                 <tr><td><?= $time; ?></td>
                     <td><?= $day->insulin; ?></td>
-                    <td><?= $day->XE; ?></td>
+                    <td><?= $day->bread_units; ?></td>
                     <td><?= $day->sugar_blood; ?></td>
                     <td><?= $day->comments; ?></td>
                     <td class='text-center'>
-                        <a href='edit/<?= $day->id_sugar ?>' class='btn btn-primary'><i class="fa fa-pencil"></i></a>
-                        <a href='delete?id=<?= $day->id_sugar ?>' class='btn btn-primary'><i class="fa fa-trash"></i></a>
+                        <a href='http://diabet/day/edit/<?= $day->id_sugar ?>' class='btn btn-primary'><i class="fa fa-pencil"></i></a>
+                        <a href='http://diabet/day/delete?id=<?= $day->id_sugar ?>' class='btn btn-primary'><i class="fa fa-trash"></i></a>
                     </td>
                 </tr>
                 <?php }} ?>

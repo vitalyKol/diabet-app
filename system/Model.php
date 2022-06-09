@@ -20,7 +20,7 @@ abstract class Model
         if(!$row){
             return null;
         }
-        return self::createClassObjet($row);
+        return self::createClassObject($row);
     }
 
     static public function findAll(){
@@ -38,12 +38,12 @@ abstract class Model
         $objs =[];
 
         foreach ($rows as $row){
-            $objs[] = self::createClassObjet($row);
+            $objs[] = self::createClassObject($row);
         }
         return $objs;
     }
 
-    static protected function createClassObjet($row){
+    static protected function createClassObject($row){
         $obj = new static(); //create an object of the class in which the function is called
 
         foreach($row as $field => $value){

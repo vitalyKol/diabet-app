@@ -11,7 +11,7 @@ class Day extends Model
     public $day;
     public $timeEnter;
     public $insulin;
-    public $XE;
+    public $bread_units;
     public $sugar_blood;
     public $comments;
     public $id_user;
@@ -20,7 +20,7 @@ class Day extends Model
         return 'sugar';
     }
 
-    public function getDayData($day){
+    public function getDayRecords($day){
         $pdo = Adapter::get();
         $table = self::getTable();
         $sql = "SELECT * FROM " . $table . " WHERE `day` = ? ORDER BY timeEnter";
@@ -35,30 +35,21 @@ class Day extends Model
         $objs =[];
 
         foreach ($rows as $row){
-            $obj = new self();
-
-            foreach($row as $field => $value){
-                $obj->{$field} = $value;
-            }
-
-            $objs[] = $obj;
+            $objs[] = self::createClassObject($row);
         }
         return $objs;
     }
 
     public function insertRecord($post){
 
-        $day = $post['day'];
-        $time = $post['sugarTime'];
-        $sugar = $post['sugar'];
-        $insulin = $post['sugarInsulin'];
-        $BU = $post['sugarBU'];
-        $comment = $post['sugarComment'];
-        $user = 1; // temporary user ID
+        $object = self::createClassObject($post);
+        $object->id_user = 1; //temporary solution
+        $arrayFromObject = (array)$object;
+        array_shift($arrayFromObject); // delete id_sugar
 
         $pdo = Adapter::get();
-        $sth = $pdo->prepare("INSERT INTO `sugar` (day, timeEnter, insulin, XE, sugar_blood, comments, id_user) values (:day, :time, :insulin, :BU, :sugar, :comment, :user)");
-        $sth->execute(array('day' => $day, 'time' => $time, 'insulin' => $insulin, 'BU' => $BU, 'sugar' => $sugar, 'comment' => $comment, 'user' => $user ));
+        $sth = $pdo->prepare("INSERT INTO `sugar` (day, timeEnter, insulin, bread_units, sugar_blood, comments, id_user) values (:day, :timeEnter, :insulin, :bread_units, :sugar_blood, :comments, :id_user)");
+        $sth->execute($arrayFromObject);
 
     }
 
@@ -70,13 +61,20 @@ class Day extends Model
 
     public function updateRecord(){
         $pdo = Adapter::get();
-        if($_POST['sugarInsulin'] == ""){
-            unset($_POST['sugarInsulin']);
+
+        if($_POST['insulin'] == ""){
+            unset($_POST['insulin']);
         }
-        if($_POST['sugarBU'] == ""){
-            unset($_POST['sugarBU']);
+        if($_POST['bread_units'] == ""){
+            unset($_POST['bread_units']);
         }
-        $sth = $pdo->prepare("UPDATE `sugar` SET `timeEnter` = :time, `insulin` = :insulin, `XE` = :BU, `sugar_blood` = :sugar, `comments` = :comments WHERE `id_sugar` = :id");
-        $sth->execute(array('time' => $_POST['sugarTime'], 'insulin' => $_POST['sugarInsulin'], 'BU' => $_POST['sugarBU'], 'sugar' => $_POST['sugar'], 'comments' => $_POST['sugarComment'], 'id' => $_POST['id']));
+
+        $object = self::createClassObject($_POST);
+        $object->id_user = 1; //temporary solution
+        $arrayFromObject = (array)$object;
+        array_pop($arrayFromObject); // delete id_user
+
+        $sth = $pdo->prepare("UPDATE `sugar` SET `day` = :day, `timeEnter` = :timeEnter, `insulin` = :insulin, `bread_units` = :bread_units, `sugar_blood` = :sugar_blood, `comments` = :comments WHERE `id_sugar` = :id_sugar");
+        $sth->execute($arrayFromObject);
     }
 }
