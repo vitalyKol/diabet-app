@@ -5,5 +5,5 @@ namespace system;
 abstract class Controller
 {
     public $view;
-    public $params = [];
+    public $params = []; // of URI
 }

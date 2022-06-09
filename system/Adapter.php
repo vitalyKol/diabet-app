@@ -6,7 +6,7 @@ class Adapter
 {
     static private $_instance = null;
 
-    private function __construct(){}
+    private function __construct(){} //prohibit cloning and creation new object
     private function __clone(){}
 
     static private function getInstance(){

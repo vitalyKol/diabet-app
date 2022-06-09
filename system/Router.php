@@ -23,17 +23,17 @@ class Router
 
 
         $phpself = $_SERVER["PHP_SELF"];
-        $phpself = substr($phpself, 0, -9);
+        $phpself = substr($phpself, 0, -9); //cut 'index.php'
 
         $dirlength = strlen($phpself);
         $uri = $_SERVER["REQUEST_URI"];
         $uri = substr($uri, $dirlength);
-        $uri = explode('?', $uri);
+        $uri = explode('?', $uri); //separate get requests
         $uri = $uri[0];
 
         $flag = false;
-        foreach ($this->routes as $rurl => $route){
-            $preg = '|^' . $rurl . '$|';
+        foreach ($this->routes as $routeUrl => $route){
+            $preg = '|^' . $routeUrl . '$|';
             if(preg_match($preg, $uri, $matches)){
                 $flag = true;
                 break;
