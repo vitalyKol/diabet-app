@@ -14,7 +14,7 @@ class Calendar extends Controller
     private $currentYear;
     private $currentDay;
 
-    private $htmlTable = '';
+    private $htmlCode = '';
 
     public function __construct($monthGet = null)
     {
@@ -44,12 +44,15 @@ class Calendar extends Controller
         $flag = true;
         $m = $this->currentMonth;
         $y = $this->currentYear;
-        for ($i = 0, $td = 1; ;) {
-            $this->htmlTable .= '<tr>';
+        for ($i = 0, $td = 1; ;) { // $td is here so that the td tag is added from the first iteration
+            if ($i > $this->amountDaysInMonth){
+                break;
+            }
+            $this->htmlCode .= '<tr>';
 
             if ($i == 0) {
                 foreach ($this->nameDays as $day) {
-                    $this->htmlTable .= "<th>$day</th>";
+                    $this->htmlCode .= "<th>$day</th>";
                 }
                 $i++;
                 continue;
@@ -57,11 +60,11 @@ class Calendar extends Controller
             for ($j = 0; $j < 7; $j++, $td++) {
                 if ($i > $this->amountDaysInMonth) {
                     $flag = false;
-                    $this->htmlTable .= "<td></td>";
+                    $this->htmlCode .= "<td></td>";
                     continue;
                 }
                 if ($td < $this->firstDayWeek) {
-                    $this->htmlTable .= "<td></td>";
+                    $this->htmlCode .= "<td></td>";
                 } else {
                     if($i < 10){
                         $d = "0" . $i;
@@ -69,20 +72,20 @@ class Calendar extends Controller
                         $d = $i;
                     }
                     if ($i == $this->currentDay) {
-                        $this->htmlTable .= "<td class='p-0'><a href=\"..\day\\$y-$m-$d\" class='td-links td-active'>$i</a></td>";
+                        $this->htmlCode .= "<td class='p-0'><a href=\"..\day\\$y-$m-$d\" class='td-links td-active'>$i</a></td>";
                         $i++;
                         continue;
                     }
-                    $this->htmlTable .= "<td class='p-0'><a href=\"..\day\\$y-$m-$d\" class='td-links'>$i</a></td>";
+                    $this->htmlCode .= "<td class='p-0'><a href=\"..\day\\$y-$m-$d\" class='td-links'>$i</a></td>";
                     $i++;
                 }
             }
-            $this->htmlTable .= '</th>';
+            $this->htmlCode .= '</th>';
             if (!$flag) {
                 break;
             }
         }
-        return $this->htmlTable;
+        return $this->htmlCode;
     }
 
     public function showMonth()
@@ -92,10 +95,7 @@ class Calendar extends Controller
 
     public function showCalendar()
     {
-
-        $result = $this->createCalendar();
-
-        echo $result;
+        echo $this->createCalendar();
     }
 
     public function nextMonth()
