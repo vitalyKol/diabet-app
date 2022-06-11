@@ -3,7 +3,7 @@
 namespace app\controller;
 
 use system\Controller;
-use \app\model\Day as modalDay;
+use \app\model\Day as ModalDay;
 
 class Day extends Controller
 {
@@ -15,7 +15,7 @@ class Day extends Controller
     {
 
         $this->thisDay = $day;
-        $dayData = new modalDay;
+        $dayData = new ModalDay;
         if(isset($this->thisDay)){
             $this->days = $dayData->getDayRecords($this->thisDay);
         }
@@ -38,13 +38,13 @@ class Day extends Controller
     }
 
     public function addSugarRecord(){
-        $dayData = new modalDay;
+        $dayData = new ModalDay;
         $dayData->insertRecord($_POST);
         header("Location: $_SERVER[HTTP_REFERER]");
     }
 
     public function deleteSugarRecord(){
-        $dayData = new modalDay;
+        $dayData = new ModalDay;
         $id = (int)$_GET['id'];
         if(is_int($id)){
             $dayData->deleteRecord($id);
@@ -56,13 +56,13 @@ class Day extends Controller
         if(isset($this->params[0])){
             $id = $this->params[0];
         }
-        $dayData = new modalDay;
+        $dayData = new ModalDay;
         $obj = $dayData::find($id);
         $this->view->dayObj = $obj;
     }
 
     public function updateSugarRecord(){
-        $dayData = new modalDay;
+        $dayData = new ModalDay;
 
         $dayData->updateRecord();
 

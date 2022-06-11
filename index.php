@@ -1,6 +1,6 @@
 <?php
 error_reporting( E_ALL );
-
+session_start();
 spl_autoload_register(function($name){
     $path = explode('\\', $name);
     $path = implode('/', $path); //change slash for linux
@@ -10,6 +10,14 @@ spl_autoload_register(function($name){
 
 $router = new system\Router();
 $route = $router->getRoute();
+
+
+if($route['action'] != 'login'){
+    if(!isset($_SESSION['authorization'])){
+        $route['controller'] = 'Auth';
+        $route['action'] = 'index';
+    }
+}
 
 $view = new \system\View();
 $view->controller = $route['controller'];
@@ -26,3 +34,4 @@ $controller->{$actionName}();
 
 
 $view->renderLayout();
+

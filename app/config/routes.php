@@ -10,3 +10,7 @@ $this->addRoute('day/addSugarRecord', 'Day', 'addSugarRecord');
 $this->addRoute('day/delete', 'Day', 'deleteSugarRecord');
 $this->addRoute('day/edit/([0-9]{1,9})', 'Day', 'showSugarRecord');
 $this->addRoute('day/update', 'Day', 'updateSugarRecord');
+$this->addRoute('login', 'Auth', 'index');
+$this->addRoute('logout', 'Auth', 'logout');
+$this->addRoute('loginCheck', 'Auth', 'login');
+$this->addRoute('profile', 'Auth', 'profileShow');
