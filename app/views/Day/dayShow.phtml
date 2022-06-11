@@ -107,7 +107,7 @@
                 </tr>
                 <?php
                 if (empty($dayObj->days)){ ?>
-                <tr><td colspan='5'>This day has no records yet</td></tr>
+                <tr><td colspan='6'>This day has no records yet</td></tr>
                 <?php } else{
                 foreach ($dayObj->days as $day) {
                 $time = substr($day->timeEnter, 0, 5);?>

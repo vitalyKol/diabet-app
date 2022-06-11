@@ -14,3 +14,4 @@ $this->addRoute('login', 'Auth', 'index');
 $this->addRoute('logout', 'Auth', 'logout');
 $this->addRoute('loginCheck', 'Auth', 'login');
 $this->addRoute('profile', 'Auth', 'profileShow');
+$this->addRoute('register', 'Auth', 'register');
