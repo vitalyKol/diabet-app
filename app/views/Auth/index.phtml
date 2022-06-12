@@ -8,7 +8,7 @@
                             <p class="text-center h1 fw-bold mb-4 mt-4">Login</p>
                             <form name="user" action="/loginCheck" method="post" class="mx-1 mx-md-4">
                                 <?php
-                                if(isset($errorLogin)){
+                                if(isset($error['errorLogin'])){
                                     ?>
                                     <div class="alert alert-danger" role="alert">
                                         The email or password is incorrect. Please, try again.
@@ -17,7 +17,10 @@
                                 }
                                 ?>
                                 <div class="form-floating mb-3">
-                                    <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com" required>
+                                    <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com"
+                                           value="<?php if(isset($error['errorEmail'])){
+                                               echo $error['errorEmail'];
+                                           } ?>" required>
                                     <label for="floatingInput">Email address</label>
                                 </div>
                                 <div class="form-floating">
@@ -29,7 +32,7 @@
                                         <button type="submit" class="btn btn-primary btn-lg w-100">Enter</button>
                                     </p>
                                     <p>
-                                        <a href="/register">Register</a>
+                                        <a href="/register"">Register</a>
                                     </p>
                                 </div>
                             </form>
@@ -44,3 +47,4 @@
         </div>
     </div>
 </div>
+

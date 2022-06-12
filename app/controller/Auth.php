@@ -16,15 +16,15 @@ class Auth extends Controller
 
         $result = ModelAuth::checkEmail($_POST);
         if(empty($result)){
-            $errorLogin = true;
-
+            $error['errorLogin'] = true;
+            $error['errorEmail'] = $_POST['email'];
         }else{
-            $errorLogin = null;
+            $error['errorLogin'] = null;
             $_SESSION['authorization'] = true;
-            header('Location: /profile');
+            header('Location: /');
         }
         $this->view->action = 'index';
-        $this->view->errorLogin = $errorLogin;
+        $this->view->error = $error;
     }
 
     public function profileShow(){
@@ -37,6 +37,6 @@ class Auth extends Controller
     }
 
     public function register(){
-
+        var_dump($_POST);
     }
 }

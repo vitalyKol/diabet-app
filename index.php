@@ -11,12 +11,13 @@ spl_autoload_register(function($name){
 $router = new system\Router();
 $route = $router->getRoute();
 
-
-if($route['action'] != 'login'){
-    if(!isset($_SESSION['authorization'])){
-        $route['controller'] = 'Auth';
-        $route['action'] = 'index';
-    }
+if($route['action'] != 'register'){
+    if($route['action'] != 'login'){
+        if(!isset($_SESSION['authorization'])){
+            $route['controller'] = 'Auth';
+            $route['action'] = 'index';
+        }
+}
 }
 
 $view = new \system\View();
