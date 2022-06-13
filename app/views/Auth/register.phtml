@@ -4,28 +4,28 @@
             <div class="card text-black " style="border-radius: 25px;">
                 <div class="card-body p-md-5">
                     <div class="row justify-content-center">
-                        <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                        <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1" id="tooltipContainer">
                             <p class="text-center h1 fw-bold mb-4 mt-4">Sing up</p>
                             <form action="/register" method="post">
-                                <div class="form-floating mb-2">
-                                    <input type="text" name="name" class="form-control" id="floatingInput" placeholder="name@example.com" required>
-                                    <label for="floatingInput">Your name</label>
+                                <div class="form-floating mb-2" data-bs-toggle="tooltip" data-bs-placement="right" title="No more than 30 characters. Only letters and numbers are available">
+                                    <input type="text" name="name" class="form-control" id="nameInput" placeholder="name" required>
+                                    <label for="nameInput">Your name</label>
                                 </div>
-                                <div class="form-floating mb-2">
-                                    <input type="email" name="email" class="form-control" id="floatingPassword" placeholder="Password" required>
-                                    <label for="floatingPassword">Your email</label>
+                                <div class="form-floating mb-2" data-bs-toggle="tooltip" data-bs-placement="right" title="name@example.com">
+                                    <input type="email" name="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
+                                    <label for="emailInput">Your email</label>
                                 </div>
-                                <div class="form-floating mb-2">
-                                    <input type="password" name="pass" class="form-control" id="floatingInput" placeholder="name@example.com" required>
-                                    <label for="floatingInput">Password</label>
+                                <div class="form-floating mb-2" data-bs-toggle="tooltip" data-bs-placement="right" title="No more than 30 characters. Only letters and numbers are available">
+                                    <input type="password" name="pass" class="form-control" id="passwordInput" placeholder="Password" required>
+                                    <label for="passwordInput">Password</label>
                                 </div>
-                                <div class="form-floating mb-2">
-                                    <input type="password" name="pass-repeat" class="form-control" id="floatingPassword" placeholder="Password" required>
-                                    <label for="floatingPassword">Repeat your password</label>
+                                <div class="form-floating mb-2" data-bs-toggle="tooltip" data-bs-placement="right" title="Repeat please">
+                                    <input type="password" name="pass-repeat" class="form-control" id="repeatPasswordInput" placeholder="Password" required>
+                                    <label for="repeatPasswordInput">Repeat your password</label>
                                 </div>
                                 <div class="mt-3 text-center">
                                     <p>
-                                        <button type="submit" class="btn btn-primary btn-lg w-100">Create my account</button>
+                                        <button type="submit" class="btn btn-primary btn-lg w-100" >Create my account</button>
                                     </p>
                                     <p>
                                         <a href="/login"">Login</a>
@@ -43,3 +43,4 @@
         </div>
     </div>
 </div>
+

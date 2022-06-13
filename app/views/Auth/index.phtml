@@ -4,7 +4,7 @@
             <div class="card text-black " style="border-radius: 25px;">
                 <div class="card-body p-md-5">
                     <div class="row justify-content-center">
-                        <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
+                        <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1" id="tooltipContainer">
                             <p class="text-center h1 fw-bold mb-4 mt-4">Login</p>
                             <form name="user" action="/loginCheck" method="post" class="mx-1 mx-md-4">
                                 <?php
@@ -16,14 +16,14 @@
                                     <?php
                                 }
                                 ?>
-                                <div class="form-floating mb-3">
+                                <div class="form-floating mb-3"  data-bs-toggle="tooltip" data-bs-placement="right" title="name@example.com">
                                     <input type="email" name="email" class="form-control" id="floatingInput" placeholder="name@example.com"
                                            value="<?php if(isset($error['errorEmail'])){
                                                echo $error['errorEmail'];
                                            } ?>" required>
                                     <label for="floatingInput">Email address</label>
                                 </div>
-                                <div class="form-floating">
+                                <div class="form-floating"  data-bs-toggle="tooltip" data-bs-placement="right" title="123456789">
                                     <input type="password" name="pass" class="form-control" id="floatingPassword" placeholder="Password" required>
                                     <label for="floatingPassword">Password</label>
                                 </div>
