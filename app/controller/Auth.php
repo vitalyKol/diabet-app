@@ -37,6 +37,7 @@ class Auth extends Controller
     }
 
     public function register(){
-        var_dump($_POST);
+        $resultValidation = ModelAuth::dataValidation($_POST);
+        var_dump($resultValidation);
     }
 }

@@ -19,4 +19,35 @@ class Auth extends Model
         $row = $query->fetch(\PDO::FETCH_ASSOC);
         return $row;
     }
+    static public function dataValidation($post){
+        $pass = self::passValidation($post['pass']);
+        $email = self::emailValidation($post['email']);
+        $name = self::nameValidation($post['name']);
+        $passRepeat = self::passRepeatValidation($post['pass'], $post['pass-repeat']);
+        return ['name' => $name, 'pass' => $pass, 'email' => $email, 'passRepeat' => $passRepeat];
+    }
+    static public function passValidation($pass){
+        if(!preg_match("/^[А-Яа-яA-Za-z0-9_-]{3,30}$/",$pass)) {
+            return false;
+        }
+        return true;
+    }
+    static public function emailValidation($email){
+        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return false;
+        }
+        return true;
+    }
+    static public function nameValidation($name){
+        if(!preg_match("/^[А-Яа-яA-Za-z0-9_-]{3,30}$/",$name)) {
+            return false;
+        }
+        return true;
+    }
+    static public function passRepeatValidation($pass, $passRepeat){
+        if($pass !== $passRepeat) {
+            return false;
+        }
+        return true;
+    }
 }
