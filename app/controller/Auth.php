@@ -37,7 +37,23 @@ class Auth extends Controller
     }
 
     public function register(){
-        $resultValidation = ModelAuth::dataValidation($_POST);
-        var_dump($resultValidation);
+        if($_POST){
+            $resultValidation = ModelAuth::dataValidation($_POST);
+            $errorFlag = false;
+            foreach ($resultValidation as $elem){
+                if(!$elem){
+                    $errorFlag = true;
+                    break;
+                }
+            }
+            if($errorFlag){
+                $this->view->errorValidation = $resultValidation;
+            }else{
+                $_SESSION['authorization'] = true;
+                header('Location: /');
+            }
+
+        }
+
     }
 }

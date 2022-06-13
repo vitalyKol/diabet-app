@@ -7,22 +7,72 @@
                         <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1" id="tooltipContainer">
                             <p class="text-center h1 fw-bold mb-4 mt-4">Sing up</p>
                             <form action="/register" method="post">
-                                <div class="form-floating mb-2" data-bs-toggle="tooltip" data-bs-placement="right" title="From 3 to 30 characters. Only letters, numbers and '-' '_' are available">
-                                    <input type="text" name="name" class="form-control" id="nameInput" placeholder="name" required>
+
+                                <div class="form-floating mb-1 mt-1" data-bs-toggle="tooltip" data-bs-placement="right" title="From 3 to 30 characters. Only letters, numbers and '-' '_' are available">
+                                    <input type="text" name="name" class="form-control" id="nameInput" placeholder="name"
+                                           value="<?php if(isset($errorValidation['name'])){
+                                               echo $_POST['name'];
+                                           } ?>" required>
                                     <label for="nameInput">Your name</label>
                                 </div>
-                                <div class="form-floating mb-2" data-bs-toggle="tooltip" data-bs-placement="right" title="name@example.com">
-                                    <input type="email" name="email" class="form-control" id="emailInput" placeholder="name@example.com" required>
+                                <?php
+                                if(isset($errorValidation['name'])){
+                                    if(!$errorValidation['name']){
+                                    ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        The name is incorrect. Please, try again.
+                                    </div>
+                                    <?php
+                                }}
+                                ?>
+                                <div class="form-floating mb-1 mt-1" data-bs-toggle="tooltip" data-bs-placement="right" title="name@example.com">
+                                    <input type="email" name="email" class="form-control" id="emailInput" placeholder="name@example.com"
+                                           value="<?php if(isset($errorValidation['email'])){
+                                               echo $_POST['email'];
+                                           } ?>" required>
                                     <label for="emailInput">Your email</label>
                                 </div>
-                                <div class="form-floating mb-2" data-bs-toggle="tooltip" data-bs-placement="right" title="From 3 to 30 characters. Only letters, numbers and '-' '_' are available">
-                                    <input type="password" name="pass" class="form-control" id="passwordInput" placeholder="Password" required>
+                                <?php
+                                if(isset($errorValidation['email'])){
+                                    if(!$errorValidation['email']){
+                                    ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        The email is incorrect. Please, try again.
+                                    </div>
+                                    <?php
+                                }}
+                                ?>
+                                <div class="form-floating mb-1 mt-1" data-bs-toggle="tooltip" data-bs-placement="right" title="From 3 to 30 characters. Only letters, numbers and '-' '_' are available">
+                                    <input type="password" name="pass" class="form-control" id="passwordInput" placeholder="Password"
+                                           value="<?php if(isset($errorValidation['pass'])){
+                                               echo $_POST['pass'];
+                                           } ?>" required>
                                     <label for="passwordInput">Password</label>
                                 </div>
-                                <div class="form-floating mb-2" data-bs-toggle="tooltip" data-bs-placement="right" title="Repeat please">
+                                <?php
+                                if(isset($errorValidation['pass'])){
+                                    if(!$errorValidation['pass']){
+                                    ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        The pass is incorrect. Please, try again.
+                                    </div>
+                                    <?php
+                                }}
+                                ?>
+                                <div class="form-floating mb-1 mt-1 " data-bs-toggle="tooltip" data-bs-placement="right" title="Repeat please">
                                     <input type="password" name="pass-repeat" class="form-control" id="repeatPasswordInput" placeholder="Password" required>
                                     <label for="repeatPasswordInput">Repeat your password</label>
                                 </div>
+                                <?php
+                                if(isset($errorValidation['passRepeat'])){
+                                    if(!$errorValidation['passRepeat']){
+                                    ?>
+                                    <div class="alert alert-danger" role="alert">
+                                        Passwords are not the same. Please, try again.
+                                    </div>
+                                    <?php
+                                }}
+                                ?>
                                 <div class="mt-3 text-center">
                                     <p>
                                         <button type="submit" class="btn btn-primary btn-lg w-100" >Create my account</button>
