@@ -27,20 +27,27 @@
                                 ?>
                                 <div class="form-floating mb-1 mt-1" data-bs-toggle="tooltip" data-bs-placement="right" title="name@example.com">
                                     <input type="email" name="email" class="form-control" id="emailInput" placeholder="name@example.com"
-                                           value="<?php if(isset($errorValidation['email'])){
+                                           value="<?php if(isset($errorValidation['emailIncorrect'])){
                                                echo $_POST['email'];
                                            } ?>" required>
                                     <label for="emailInput">Your email</label>
                                 </div>
                                 <?php
-                                if(isset($errorValidation['email'])){
-                                    if(!$errorValidation['email']){
+                                if(isset($errorValidation['emailIncorrect'])){
+                                    if(!$errorValidation['emailIncorrect']){
                                     ?>
                                     <div class="alert alert-danger" role="alert">
                                         The email is incorrect. Please, try again.
                                     </div>
                                     <?php
-                                }}
+                                    }elseif(!$errorValidation['emailExist']){
+                                        ?>
+                                        <div class="alert alert-danger" role="alert">
+                                            The email is exists. Please, use a different email.
+                                        </div>
+                                        <?php
+                                    }
+                                }
                                 ?>
                                 <div class="form-floating mb-1 mt-1" data-bs-toggle="tooltip" data-bs-placement="right" title="From 3 to 30 characters. Only letters, numbers and '-' '_' are available">
                                     <input type="password" name="pass" class="form-control" id="passwordInput" placeholder="Password"

@@ -13,15 +13,20 @@ class Auth extends Controller
     }
 
     public function login(){
-
-        $result = ModelAuth::checkEmail($_POST);
-        if(empty($result)){
+        $validEmail = ModelAuth::emailValidation($_POST['email']);
+        if($validEmail){
+            $result = ModelAuth::isEmailExist($_POST['email']);
+            if(!$result){
+                $error['errorLogin'] = true;
+                $error['errorEmail'] = $_POST['email'];
+            }else{
+                $error['errorLogin'] = null;
+                $_SESSION['authorization'] = true;
+                header('Location: /');
+            }
+        }else{
             $error['errorLogin'] = true;
             $error['errorEmail'] = $_POST['email'];
-        }else{
-            $error['errorLogin'] = null;
-            $_SESSION['authorization'] = true;
-            header('Location: /');
         }
         $this->view->action = 'index';
         $this->view->error = $error;
@@ -48,7 +53,9 @@ class Auth extends Controller
             }
             if($errorFlag){
                 $this->view->errorValidation = $resultValidation;
-            }else{
+            }
+            else{
+                ModelAuth::addUser($_POST);
                 $_SESSION['authorization'] = true;
                 header('Location: /');
             }
