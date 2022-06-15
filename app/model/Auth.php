@@ -7,6 +7,10 @@ use system\Adapter;
 
 class Auth extends Model
 {
+    public $id;
+    public $login;
+    public $pass;
+    public $email;
     static public function getTable(){
         return 'users';
     }
@@ -62,8 +66,19 @@ class Auth extends Model
         array_pop($data); // delete pass-repeat
         $pdo = Adapter::get();
         $table = self::getTable();
+        $data['pass'] = password_hash($data['pass'], PASSWORD_DEFAULT);
         $sql = "INSERT INTO ". $table ." (login, pass, email) values (:name, :pass, :email)";
         $query = $pdo->prepare($sql);
         $query->execute($data);
+    }
+    static function getUser($email)
+    {
+        $pdo = Adapter::get();
+        $table = self::getTable();
+        $sql = "SELECT * FROM " . $table . " WHERE `email` = ?";
+        $query = $pdo->prepare($sql);
+        $query->execute([$email]);
+        $row = $query->fetch(\PDO::FETCH_ASSOC);
+        return $row;
     }
 }

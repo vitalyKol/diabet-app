@@ -20,9 +20,16 @@ class Auth extends Controller
                 $error['errorLogin'] = true;
                 $error['errorEmail'] = $_POST['email'];
             }else{
-                $error['errorLogin'] = null;
-                $_SESSION['authorization'] = true;
-                header('Location: /');
+                $row = ModelAuth::getUser($_POST['email']);
+                if(password_verify($_POST['pass'], $row['pass'])){
+                    $_SESSION['id'] = $row['id'];
+                    $error['errorLogin'] = null;
+                    $_SESSION['authorization'] = true;
+                    header('Location: /');
+                }else{
+                    $error['errorLogin'] = true;
+                    $error['errorEmail'] = $_POST['email'];
+                }
             }
         }else{
             $error['errorLogin'] = true;
@@ -38,6 +45,7 @@ class Auth extends Controller
 
     public function logout(){
         $_SESSION['authorization'] = null;
+        $_SESSION['id'] = null;
         header('Location: /');
     }
 
@@ -56,6 +64,8 @@ class Auth extends Controller
             }
             else{
                 ModelAuth::addUser($_POST);
+                $row = ModelAuth::getUser($_POST['email']);
+                $_SESSION['id'] = $row['id'];
                 $_SESSION['authorization'] = true;
                 header('Location: /');
             }
