@@ -21,11 +21,12 @@ class Day extends Model
     }
 
     public function getDayRecords($day){
+        $idUser = $_SESSION['id'];
         $pdo = Adapter::get();
         $table = self::getTable();
-        $sql = "SELECT * FROM " . $table . " WHERE `day` = ? ORDER BY timeEnter";
+        $sql = "SELECT * FROM " . $table . " WHERE `day` = ? AND `id_user` = ? ORDER BY timeEnter";
         $query = $pdo->prepare($sql);
-        $query->execute([$day]);
+        $query->execute([$day, $_SESSION['id']]);
         $rows = $query->fetchAll(\PDO::FETCH_ASSOC);
 
         if(!$rows){
@@ -43,7 +44,7 @@ class Day extends Model
     public function insertRecord($post){
 
         $object = self::createClassObject($post);
-        $object->id_user = 1; //temporary solution
+        $object->id_user = $_SESSION['id']; //temporary solution
         $arrayFromObject = (array)$object;
         array_shift($arrayFromObject); // delete id_sugar
 
@@ -70,7 +71,7 @@ class Day extends Model
         }
 
         $object = self::createClassObject($_POST);
-        $object->id_user = 1; //temporary solution
+        $object->id_user = $_SESSION['id']; //temporary solution
         $arrayFromObject = (array)$object;
         array_pop($arrayFromObject); // delete id_user
 

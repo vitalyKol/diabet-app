@@ -15,3 +15,4 @@ $this->addRoute('logout', 'Auth', 'logout');
 $this->addRoute('loginCheck', 'Auth', 'login');
 $this->addRoute('profile', 'Auth', 'profileShow');
 $this->addRoute('register', 'Auth', 'register');
+$this->addRoute('changePassword', 'Auth', 'showChangePasswordPage');

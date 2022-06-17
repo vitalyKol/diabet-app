@@ -81,4 +81,12 @@ class Auth extends Model
         $row = $query->fetch(\PDO::FETCH_ASSOC);
         return $row;
     }
+    static function updatePass($pass){
+        $pass = password_hash($pass, PASSWORD_DEFAULT);
+        $pdo = Adapter::get();
+        $table = self::getTable();
+        $sql = "UPDATE " . $table . " SET pass = ? WHERE `id` = ?";
+        $query = $pdo->prepare($sql);
+        $query->execute([$pass, $_SESSION['id']]);
+    }
 }
