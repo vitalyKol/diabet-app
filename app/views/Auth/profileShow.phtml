@@ -6,13 +6,23 @@
                 <b>Name:</b> <?= $user['name']; ?><br>
                 <b>Email:</b> <?= $user['email']; ?>
             </p>
-            <h2>Change pass:</h2>
+            <a href="/changePassword" class="btn btn-primary mb-2">Change password</a>
+            <h2>Statistics for the last 30 days</h2>
             <p>
-                Here will be a form with fields where you can change your password
-            </p>
-            <h2>Statistics</h2>
-            <p>
-                Here will be a chart
+            <table class="charts-css line" id="my-chart">
+
+                <tbody>
+                <?php
+                    $htmlCode = '';
+                    for($i = 0, $j = 1; $i < 29; $i++, $j++){
+                        $htmlCode .= "<tr><td style=\"--start: $averageDaySugar[$i]; --size:  $averageDaySugar[$j]\"> <span class=\"data\"> $statics[$j] </span> </td></tr>";
+                    }
+                    echo $htmlCode;
+                ?>
+
+                </tbody>
+
+            </table>
             </p>
             <h2>Logout:</h2>
             <p>

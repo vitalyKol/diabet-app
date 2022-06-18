@@ -42,6 +42,15 @@ class Auth extends Controller
 
     public function profileShow(){
         $row = ModelAuth::getUser($_SESSION['email']);
+        $statics = ModelAuth::getStaticsFor30Days();
+        $statics = array_reverse($statics);
+        $max = max($statics);
+        for($i = 0; $i < 30; $i++){
+            $averageDaySugar[$i] = round($statics[$i]/$max,2);
+        }
+
+        $this->view->statics = $statics;
+        $this->view->averageDaySugar = $averageDaySugar;
         $this->view->user = ['name' => $row['login'], 'email' => $row['email']];
     }
 

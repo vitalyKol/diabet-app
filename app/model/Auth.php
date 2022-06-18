@@ -89,4 +89,23 @@ class Auth extends Model
         $query = $pdo->prepare($sql);
         $query->execute([$pass, $_SESSION['id']]);
     }
+    static public function getStaticsFor30Days(){
+
+        $table = self::getTable();
+        $averageDaySugar = [];
+        for($i = 0; $i < 30; $i++){
+            $AVGSugar = self::getAverageSugarForDay($i);
+            $averageDaySugar[] =  round($AVGSugar['averageSugarForDay'], 2) ?? '0';
+        }
+        return $averageDaySugar;
+    }
+    static public function getAverageSugarForDay($day){
+        $pdo = Adapter::get();
+        $sql = "SELECT AVG(`sugar_blood`) as `averageSugarForDay` FROM `sugar` WHERE `id_user` = :user AND `day` = SUBDATE(\"2022-06-19\", INTERVAL :day DAY)";
+        $query = $pdo->prepare($sql);
+        $needData = ['user' => $_SESSION['id'], 'day' => $day];
+        $query->execute($needData);
+        $row = $query->fetch(\PDO::FETCH_ASSOC);
+        return $row;
+    }
 }
