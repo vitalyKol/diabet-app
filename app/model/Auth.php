@@ -90,20 +90,37 @@ class Auth extends Model
         $query->execute([$pass, $_SESSION['id']]);
     }
     static public function getStaticsFor30Days(){
-
-        $table = self::getTable();
+        $last30Days = self::getLast30Dates();
         $averageDaySugar = [];
         for($i = 0; $i < 30; $i++){
-            $AVGSugar = self::getAverageSugarForDay($i);
+            $AVGSugar = self::getAverageSugarForDay($last30Days[$i]);
             $averageDaySugar[] =  round($AVGSugar['averageSugarForDay'], 2) ?? '0';
         }
         return $averageDaySugar;
     }
     static public function getAverageSugarForDay($day){
         $pdo = Adapter::get();
-        $sql = "SELECT AVG(`sugar_blood`) as `averageSugarForDay` FROM `sugar` WHERE `id_user` = :user AND `day` = SUBDATE(\"2022-06-19\", INTERVAL :day DAY)";
+        $sql = "SELECT AVG(`sugar_blood`) as `averageSugarForDay` FROM `sugar` WHERE `id_user` = :user AND `day` = :day";
         $query = $pdo->prepare($sql);
         $needData = ['user' => $_SESSION['id'], 'day' => $day];
+        $query->execute($needData);
+        $row = $query->fetch(\PDO::FETCH_ASSOC);
+        return $row;
+    }
+    static public function getLast30Dates(){
+        $today = time();
+        $last30Days = [];
+        for($i = 0; $i < 30; $i++){
+            $last30Days[] = date('Y-m-d', $today-(86400*$i));
+        }
+        return $last30Days;
+    }
+
+    static public function getAverageSugarForAllTime(){
+        $pdo = Adapter::get();
+        $sql = "SELECT AVG(`sugar_blood`) as `averageSugarForAllTime` FROM `sugar` WHERE `id_user` = :user";
+        $query = $pdo->prepare($sql);
+        $needData = ['user' => $_SESSION['id']];
         $query->execute($needData);
         $row = $query->fetch(\PDO::FETCH_ASSOC);
         return $row;

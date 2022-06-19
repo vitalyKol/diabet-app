@@ -1,33 +1,30 @@
-<div class="container">
-    <div class="row">
-        <div class="col">
-            <h2>Your data:</h2>
-            <p>
-                <b>Name:</b> <?= $user['name']; ?><br>
-                <b>Email:</b> <?= $user['email']; ?>
-            </p>
-            <a href="/changePassword" class="btn btn-primary mb-2">Change password</a>
-            <h2>Statistics for the last 30 days</h2>
-            <p>
-            <table class="charts-css line" id="my-chart">
+    <div class="container text-center">
+        <div class="row mb-5">
+            <div class="col">
+                <h2>Your data:</h2>
+                <p>
+                    <b>Name:</b> <?= $user['name']; ?><br>
+                    <b>Email:</b> <?= $user['email']; ?><br>
+                </p>
+                    <a href="/changePassword" class="btn btn-primary mb-2">Change password</a><br>
+                    <a href="../logout" class="btn btn-primary">Logout</a>
+            </div>
+        </div>
 
-                <tbody>
-                <?php
-                    $htmlCode = '';
-                    for($i = 0, $j = 1; $i < 29; $i++, $j++){
-                        $htmlCode .= "<tr><td style=\"--start: $averageDaySugar[$i]; --size:  $averageDaySugar[$j]\"> <span class=\"data\"> $statics[$j] </span> </td></tr>";
-                    }
-                    echo $htmlCode;
-                ?>
+        <div class="row">
+            <div class="col mb-5">
+                <h2>Your average sugar in blood for all time:</h2>
+                <p class="h1 mb-5"><?= round($averageSugarForAllTime['averageSugarForAllTime'],2) ?></p>
+                <h2>Statistics for the last 30 days</h2>
 
-                </tbody>
+                <table class="charts-css line pb-5" id="my-chart">
 
-            </table>
-            </p>
-            <h2>Logout:</h2>
-            <p>
-                <a href="../logout" class="btn btn-primary">Exit</a>
-            </p>
+                    <tbody>
+                    <?= $htmlCode; ?>
+                    </tbody>
+
+                </table>
+
+            </div>
         </div>
     </div>
-</div>

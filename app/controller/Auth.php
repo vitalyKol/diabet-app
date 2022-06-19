@@ -49,8 +49,14 @@ class Auth extends Controller
             $averageDaySugar[$i] = round($statics[$i]/$max,2);
         }
 
-        $this->view->statics = $statics;
-        $this->view->averageDaySugar = $averageDaySugar;
+        $htmlCode = '';
+        for($i = 0, $j = 1; $i < 29; $i++, $j++){
+            $htmlCode .= "<tr><td style=\"--start: $averageDaySugar[$i]; --size:  $averageDaySugar[$j]\"> <span class=\"data\"> $statics[$j] </span> </td></tr>";
+        }
+        $averageSugarForAllTime = ModelAuth::getAverageSugarForAllTime();
+        ModelAuth::getLast30Dates();
+        $this->view->averageSugarForAllTime = $averageSugarForAllTime;
+        $this->view->htmlCode = $htmlCode;
         $this->view->user = ['name' => $row['login'], 'email' => $row['email']];
     }
 
