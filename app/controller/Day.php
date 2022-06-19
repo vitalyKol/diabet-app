@@ -68,4 +68,15 @@ class Day extends Controller
 
         header("Location: http://$_SERVER[SERVER_NAME]/day/$_POST[day]");
     }
+
+    public function nextDay(){
+        $today = strtotime($this->thisDay);
+        $d = date('Y-m-d',  $today + 86400); //86400 - amount of seconds in day
+        return $d;
+    }
+    public function lastDay(){
+        $today = strtotime($this->thisDay);
+        $d = date('Y-m-d', $today - 86400);
+        return $d;
+    }
 }
