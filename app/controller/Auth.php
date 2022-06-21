@@ -13,7 +13,7 @@ class Auth extends Controller
     }
 
     public function login(){
-        $validEmail = ModelAuth::emailValidation($_POST['email']);
+        $validEmail = ModelAuth::validateEmail($_POST['email']);
         if($validEmail){
             $result = ModelAuth::isEmailExist($_POST['email']);
             if(!$result){
@@ -69,7 +69,7 @@ class Auth extends Controller
 
     public function register(){
         if($_POST){
-            $resultValidation = ModelAuth::dataValidation($_POST);
+            $resultValidation = ModelAuth::dataValidationForRegister($_POST);
             $errorFlag = false;
             foreach ($resultValidation as $elem){
                 if(!$elem){
@@ -95,19 +95,19 @@ class Auth extends Controller
         $errorPass = null;
         if(isset($_POST['new-pass'])){
             foreach ($_POST as $post){
-                if(!ModelAuth::passValidation($post)){
+                if(!ModelAuth::validatePassword($post)){
                     $errorPass = 'incorrect';
                     break;
                 }
             }
             if($errorPass !== 'incorrect'){
-                if(!ModelAuth::passRepeatValidation($_POST['new-pass'], $_POST['new-repeat-pass'])){
+                if(!ModelAuth::validateRepeatPassword($_POST['new-pass'], $_POST['new-repeat-pass'])){
                     $errorPass = 'notEqual';
                 }else{
                     $row = ModelAuth::getUser($_SESSION['email']);
                     if(password_verify($_POST['old-pass'], $row['pass'])){
                         $errorPass = 'noErrors';
-                        ModelAuth::updatePass($_POST['new-pass']);
+                        ModelAuth::updatePassword($_POST['new-pass']);
                     }else{
                         $errorPass = 'oldPassWrong';
                     }

@@ -79,4 +79,11 @@ class Day extends Controller
         $d = date('Y-m-d', $today - 86400);
         return $d;
     }
+
+    public function getAverageSugar(){
+        $averageSugar = \app\model\Auth::getAverageSugarForDay($this->thisDay);
+        $averageSugar =  round($averageSugar['averageSugarForDay'], 2) ?? '0';
+        return $averageSugar;
+    }
+
 }

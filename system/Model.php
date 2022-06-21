@@ -8,13 +8,17 @@ abstract class Model
         return false;
     }
 
-    static public function find($id){
+    static protected function executePrepareQuery($sql, $arrayParams){
         $pdo = Adapter::get();
-        $table = static::getTable();
-
-        $sql = 'SELECT * FROM ' . $table . ' WHERE `id_sugar` = ?';
         $query = $pdo->prepare($sql);
-        $query->execute([$id]);
+        $query->execute($arrayParams);
+        return $query;
+    }
+
+    static public function find($id){
+        $table = static::getTable();
+        $sql = 'SELECT * FROM ' . $table . ' WHERE `id_sugar` = ?';
+        $query = self::executePrepareQuery($sql, [$id]);
         $row = $query->fetch(\PDO::FETCH_ASSOC);
 
         if(!$row){
@@ -24,12 +28,9 @@ abstract class Model
     }
 
     static public function findAll(){
-        $pdo = Adapter::get();
         $table = static::getTable();
-
         $sql = 'SELECT * FROM ' . $table;
-        $query = $pdo->prepare($sql);
-        $query->execute();
+        $query = self::executePrepareQuery($sql, []);
         $rows = $query->fetchAll(\PDO::FETCH_ASSOC);
 
         if(!$rows){

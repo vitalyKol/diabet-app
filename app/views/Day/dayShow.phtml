@@ -6,6 +6,11 @@
         <div class="col-6"><h1><?php echo $dayObj->thisDay;?></h1></div>
         <div class="col-3 text-start"><a href="../day/<?= $dayObj->nextDay(); ?>" class="btn btn-primary">Next</a></div>
     </div>
+    <div class="row text-center mt-4 mb-4">
+        <div class="col">
+            <p class="h2 mb-5">Your average sugar in blood for the day: <span class="h1"><?= $dayObj->getAverageSugar() ?></span></p>
+        </div>
+    </div>
     <div class="row">
         <div class="col">
             <p>

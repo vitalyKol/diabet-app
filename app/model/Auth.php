@@ -26,68 +26,62 @@ class Auth extends Model
         }
         return true;
     }
-    static public function dataValidation($post){
-        $pass = self::passValidation($post['pass']);
-        $emailIncorrect = self::emailValidation($post['email']);
-        if($emailIncorrect){
-            $emailExist = self::isEmailExist($post['email']);
+    static public function dataValidationForRegister($post){
+        $errorPassBool = self::validatePassword($post['pass']);
+        $errorEmailBool = self::validateEmail($post['email']);
+        if($errorEmailBool){
+            $errorEmailExistBool = self::isEmailExist($post['email']);
         }else{
-            $emailExist = false;
+            $errorEmailExistBool = false;
         }
-        $name = self::nameValidation($post['name']);
-        $passRepeat = self::passRepeatValidation($post['pass'], $post['pass-repeat']);
-        return ['name' => $name, 'pass' => $pass, 'emailIncorrect' => $emailIncorrect, 'emailExist' => !$emailExist, 'passRepeat' => $passRepeat];
+        $errorNameBool = self::validateName($post['name']);
+        $errorPassRepeatBool = self::validateRepeatPassword($post['pass'], $post['pass-repeat']);
+        return ['name' => $errorNameBool, 'pass' => $errorPassBool, 'emailIncorrect' => $errorEmailBool, 'emailExist' => !$errorEmailExistBool, 'passRepeat' => $errorPassRepeatBool];
     }
-    static public function passValidation($pass){
-        if(!preg_match("/^[А-Яа-яA-Za-z0-9_-]{3,30}$/",$pass)) {
-            return false;
+    static public function validatePassword($password){
+        if(preg_match("/^[А-Яа-яA-Za-z0-9_-]{3,30}$/",$password)) {
+            return true;
         }
-        return true;
+        return false;
     }
-    static public function emailValidation($email){
-        if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-            return false;
+    static public function validateEmail($email){
+        if (filter_var($email, FILTER_VALIDATE_EMAIL)) {
+            return true;
         }
-        return true;
+        return false;
     }
-    static public function nameValidation($name){
-        if(!preg_match("/^[А-Яа-яA-Za-z0-9_-]{3,30}$/",$name)) {
-            return false;
+    static public function validateName($name){
+        if(preg_match("/^[А-Яа-яA-Za-z0-9_-]{3,30}$/",$name)) {
+            return true;
         }
-        return true;
+        return false;
     }
-    static public function passRepeatValidation($pass, $passRepeat){
-        if($pass !== $passRepeat) {
-            return false;
+    static public function validateRepeatPassword($password, $passwordRepeat){
+        if($password === $passwordRepeat) {
+            return true;
         }
-        return true;
+        return false;
     }
+
     static function addUser($data){
         array_pop($data); // delete pass-repeat
-        $pdo = Adapter::get();
-        $table = self::getTable();
         $data['pass'] = password_hash($data['pass'], PASSWORD_DEFAULT);
-        $sql = "INSERT INTO ". $table ." (login, pass, email) values (:name, :pass, :email)";
-        $query = $pdo->prepare($sql);
-        $query->execute($data);
+
+        $sql = "INSERT INTO `users` (login, pass, email) values (:name, :pass, :email)";
+        $query = self::executePrepareQuery($sql, $data);
     }
     static function getUser($email)
     {
-        $pdo = Adapter::get();
-        $table = self::getTable();
-        $sql = "SELECT * FROM " . $table . " WHERE `email` = ?";
-        $query = $pdo->prepare($sql);
-        $query->execute([$email]);
+        $sql = "SELECT * FROM `users` WHERE `email` = ?";
+        $query = self::executePrepareQuery($sql, [$email]);
         $row = $query->fetch(\PDO::FETCH_ASSOC);
         return $row;
     }
-    static function updatePass($pass){
-        $pass = password_hash($pass, PASSWORD_DEFAULT);
-        $pdo = Adapter::get();
-        $table = self::getTable();
-        $sql = "UPDATE " . $table . " SET pass = ? WHERE `id` = ?";
-        $query = $pdo->prepare($sql);
-        $query->execute([$pass, $_SESSION['id']]);
+    static function updatePassword($password){
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        $sql = "UPDATE `users` SET pass = ? WHERE `id` = ?";
+        $query = self::executePrepareQuery($sql, [$password, $_SESSION['id']]);
+
     }
     static public function getStaticsFor30Days(){
         $last30Days = self::getLast30Dates();
@@ -99,11 +93,10 @@ class Auth extends Model
         return $averageDaySugar;
     }
     static public function getAverageSugarForDay($day){
-        $pdo = Adapter::get();
-        $sql = "SELECT AVG(`sugar_blood`) as `averageSugarForDay` FROM `sugar` WHERE `id_user` = :user AND `day` = :day";
-        $query = $pdo->prepare($sql);
         $needData = ['user' => $_SESSION['id'], 'day' => $day];
-        $query->execute($needData);
+        $sql = "SELECT AVG(`sugar_blood`) as `averageSugarForDay` FROM `sugar` WHERE `id_user` = :user AND `day` = :day";
+        $query = self::executePrepareQuery($sql, $needData);
+
         $row = $query->fetch(\PDO::FETCH_ASSOC);
         return $row;
     }
@@ -117,11 +110,9 @@ class Auth extends Model
     }
 
     static public function getAverageSugarForAllTime(){
-        $pdo = Adapter::get();
-        $sql = "SELECT AVG(`sugar_blood`) as `averageSugarForAllTime` FROM `sugar` WHERE `id_user` = :user";
-        $query = $pdo->prepare($sql);
         $needData = ['user' => $_SESSION['id']];
-        $query->execute($needData);
+        $sql = "SELECT AVG(`sugar_blood`) as `averageSugarForAllTime` FROM `sugar` WHERE `id_user` = :user";
+        $query = self::executePrepareQuery($sql, $needData);
         $row = $query->fetch(\PDO::FETCH_ASSOC);
         return $row;
     }
