@@ -2,14 +2,12 @@
 
 namespace app\controller;
 
-use http\Header;
 use system\Controller;
 use app\model\Auth as ModelAuth;
 
 class Auth extends Controller
 {
     public function index(){
-
     }
 
     public function login(){
@@ -41,22 +39,26 @@ class Auth extends Controller
     }
 
     public function profileShow(){
-        $row = ModelAuth::getUser($_SESSION['email']);
+
+        //For graph
         $statics = ModelAuth::getStaticsFor30Days();
         $statics = array_reverse($statics);
         $max = max($statics);
         for($i = 0; $i < 30; $i++){
-            $averageDaySugar[$i] = round($statics[$i]/$max,2);
+            $averageDaySugar[$i] = round($statics[$i]/$max,2); //blood sugar in range from 0 to 1 for graph
         }
-
         $htmlCode = '';
         for($i = 0, $j = 1; $i < 29; $i++, $j++){
             $htmlCode .= "<tr><td style=\"--start: $averageDaySugar[$i]; --size:  $averageDaySugar[$j]\"> <span class=\"data\"> $statics[$j] </span> </td></tr>";
         }
-        $averageSugarForAllTime = ModelAuth::getAverageSugarForAllTime();
-        ModelAuth::getLast30Dates();
-        $this->view->averageSugarForAllTime = $averageSugarForAllTime;
         $this->view->htmlCode = $htmlCode;
+
+
+        $averageSugarForAllTime = ModelAuth::getAverageSugarForAllTime();
+        $this->view->averageSugarForAllTime = $averageSugarForAllTime;
+
+
+        $row = ModelAuth::getUser($_SESSION['email']);
         $this->view->user = ['name' => $row['login'], 'email' => $row['email']];
     }
 
